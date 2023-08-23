@@ -27,10 +27,10 @@ TEST(AllOpcodesAndAddressingModes, FunctionalTest)
 	std::copy(istream_iterator<Byte>(file), istream_iterator<Byte>(), ram.data.begin() + 0x000a);
 	cpu.PC = 0x0400;
 
-	while (cpu.PC != 0x336d && cpu.Cycles < 90000000)
+	while (cpu.PC != 0x3469 && cpu.Cycles < 100000000)
 	{
 		cpu.step();
 	}
 
-	EXPECT_EQ(cpu.PC, 0x336d);
+	EXPECT_EQ(cpu.PC, 0x3469);
 }
