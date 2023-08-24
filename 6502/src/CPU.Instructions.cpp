@@ -3,35 +3,38 @@
 
 bool CPU::ADC()
 {
-    Word sum = this->A;
-    sum += this->M;
-    sum += this->getFlag(CPU::Status::C);
-
-    this->setFlag(CPU::Status::Z, (sum & 0x00FF) == 0);
-
     if (this->getFlag(CPU::Status::D))
     {
-        // Decimal mode
-        if ((this->A & 0xF) + (this->M & 0xF) + this->getFlag(CPU::Status::C) > 9)
+        Word lo = (this->A & 0x0F) + (this->M & 0x0F) + this->getFlag(CPU::Status::C);
+        Word hi = (this->A & 0xF0) + (this->M & 0xF0);
+
+        this->setFlag(CPU::Status::Z, ((lo + hi) & 0xFF) == 0);
+
+        if (lo > 0x09)
         {
-            sum += 6;
+            hi += 0x10;
+            lo += 0x06;
         }
 
-        this->setFlag(CPU::Status::N, sum & 0x0080);
-        this->setFlag(CPU::Status::V, ~(this->A ^ this->M) & (this->A ^ sum) & 0x0080);
-        if (sum > 0x99)
+        this->setFlag(CPU::Status::N, hi & 0x0080);
+        this->setFlag(CPU::Status::V, ~(this->A ^ this->M) & (this->A ^ hi) & 0x0080);
+        if (hi > 0x90)
         {
-            sum += 96;
+            hi += 0x60;
         }
 
-        this->setFlag(CPU::Status::C, sum > 0x99);
+        this->setFlag(CPU::Status::C, hi & 0xFF00);
+
+        this->A = (lo & 0x0F) | (hi & 0xF0);
+        return false;
     }
-    else
-    {
-        this->setFlag(CPU::Status::C, sum & 0xFF00);
-        this->setFlag(CPU::Status::N, sum & 0x0080);
-        this->setFlag(CPU::Status::V, ~(this->A ^ this->M) & (this->A ^ sum) & 0x0080);
-    }
+
+    Word sum = this->A + this->M + this->getFlag(CPU::Status::C);
+
+    this->setFlag(CPU::Status::Z, (sum & 0x00FF) == 0);
+    this->setFlag(CPU::Status::N, sum & 0x0080);
+    this->setFlag(CPU::Status::C, sum & 0xFF00);
+    this->setFlag(CPU::Status::V, ~(this->A ^ this->M) & (this->A ^ sum) & 0x0080);
 
     this->A = (Byte)sum;
     return true;
@@ -484,31 +487,39 @@ bool CPU::RTS()
 
 bool CPU::SBC()
 {
-    Word sum = this->A;
-    sum -= this->M;
-    sum -= !this->getFlag(CPU::Status::C);
-
-    this->setFlag(CPU::Status::Z, (sum & 0x00FF) == 0);
-    this->setFlag(CPU::Status::N, sum & 0x0080);
-    this->setFlag(CPU::Status::V, (sum ^ this->A) & (this->M ^ this->A) & 0x0080);
+    Word sub = this->A - this->M - !this->getFlag(CPU::Status::C);
 
     if (this->getFlag(CPU::Status::D))
     {
-        // Decimal mode
-        if (((this->A & 0x0F) - !this->getFlag(CPU::Status::C)) < (this->M & 0x0F))
+        Word lo = (this->A & 0x0F) - (this->M & 0x0F) - !this->getFlag(CPU::Status::C);
+        Word hi = (this->A & 0xF0) - (this->M & 0xF0);
+
+        if (lo & 0x10)
         {
-            sum -= 6;
+            lo -= 6;
+            hi--;
         }
 
-        if (sum > 0x99)
+        this->setFlag(CPU::Status::V, (sub ^ this->A) & (this->M ^ this->A) & 0x0080);
+        this->setFlag(CPU::Status::C, sub < 0x0100);
+        this->setFlag(CPU::Status::Z, (sub & 0x00FF) == 0);
+        this->setFlag(CPU::Status::N, sub & 0x0080);
+
+        if (hi & 0x0100)
         {
-            sum -= 0x60;
+            hi -= 0x60;
         }
+
+        this->A = (lo & 0x0F) | (hi & 0xF0);
+        return true;
     }
 
-    this->setFlag(CPU::Status::C, sum < 0x0100);
+    this->setFlag(CPU::Status::Z, (sub & 0x00FF) == 0);
+    this->setFlag(CPU::Status::N, sub & 0x0080);
+    this->setFlag(CPU::Status::V, (sub ^ this->A) & (this->M ^ this->A) & 0x0080);
+    this->setFlag(CPU::Status::C, sub < 0x0100);
 
-    this->A = (Byte)sum;
+    this->A = (Byte)sub;
     return true;
 }
 

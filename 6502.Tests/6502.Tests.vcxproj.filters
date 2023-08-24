@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="functionalTest.cpp">
+    <ClCompile Include="src\functionalTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -20,15 +20,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="6502_functional_test.bin">
+    <None Include="tests\6502_functional_test.bin">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="packages.config">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="tests\6502_decimal_test.bin">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

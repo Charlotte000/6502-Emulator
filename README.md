@@ -1,9 +1,8 @@
-# 6502 Microprocessor Emulator
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/BreakNES_MOS_6502.jpg/220px-BreakNES_MOS_6502.jpg)
 
+# 6502 Microprocessor Emulator
 This project is an emulator for the MOS 6502 microprocessor written in C++.
 It aims to faithfully replicate the behavior of the 6502 microprocessor by implementing all legal opcodes and addressing modes.
-
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/BreakNES_MOS_6502.jpg/220px-BreakNES_MOS_6502.jpg)
 
 ## Features
 - Full support for all legal opcodes of the 6502 microprocessor.
@@ -13,7 +12,7 @@ It aims to faithfully replicate the behavior of the 6502 microprocessor by imple
 - Ability to inspect the number of cycles required to execute a program.
 
 ## Testing
-The emulator has successfully passed the functional tests provided by Klaus2m5.
+The emulator has successfully passed the functional tests provided by Klaus2m5 and decimal mode tests by Bruce Clark.
 These tests can be found in the [6502_65C02_functional_tests](https://github.com/Klaus2m5/6502_65C02_functional_tests) repository.
 
 ## Acknowledgments
