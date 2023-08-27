@@ -4,7 +4,7 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\functionalTest.cpp">
+    <ClCompile Include="src\tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -23,10 +23,11 @@
     <None Include="tests\6502_functional_test.bin">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="packages.config">
+    <None Include="tests\6502_decimal_test.bin">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="tests\6502_decimal_test.bin">
+    <None Include="packages.config" />
+    <None Include="tests\6502_interrupt_test.bin">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

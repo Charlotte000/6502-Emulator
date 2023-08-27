@@ -52,7 +52,7 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\functionalTest.cpp" />
+    <ClCompile Include="src\tests.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -69,6 +69,7 @@
     <None Include="tests\6502_decimal_test.bin" />
     <None Include="tests\6502_functional_test.bin" />
     <None Include="packages.config" />
+    <None Include="tests\6502_interrupt_test.bin" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

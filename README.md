@@ -12,7 +12,7 @@ It aims to faithfully replicate the behavior of the 6502 microprocessor by imple
 - Ability to inspect the number of cycles required to execute a program.
 
 ## Testing
-The emulator has successfully passed the functional tests provided by Klaus2m5 and decimal mode tests by Bruce Clark.
+The emulator has successfully passed the functional and interrupt tests provided by Klaus2m5 and decimal mode test by Bruce Clark.
 These tests can be found in the [6502_65C02_functional_tests](https://github.com/Klaus2m5/6502_65C02_functional_tests) repository.
 
 ## Acknowledgments

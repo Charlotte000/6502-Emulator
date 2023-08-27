@@ -36,11 +36,11 @@ void CPU::reset()
 }
 
 /// <summary>
-/// Interrupt Request
+/// Interrupt request
 /// </summary>
 void CPU::IRQ()
 {
-	if (this->getFlag(CPU::Status::I) != 0)
+	if (this->getFlag(CPU::Status::I))
 	{
 		return;
 	}
@@ -49,33 +49,31 @@ void CPU::IRQ()
 	this->pushWordStack(this->PC);
 
 	// Push SR to the stack
-	this->setFlag(CPU::Status::B, false);
-	this->setFlag(CPU::Status::U, true);
-	this->setFlag(CPU::Status::I, true);
 	this->pushStack((Byte)this->SR);
-	this->SP--;
+	this->setFlag(CPU::Status::I, true);
 
 	// JMP
 	this->PC = this->readWord(CPU::IRQVector);
 
-	this->Cycles = 7;
+	this->Cycles += 7;
 }
 
+/// <summary>
+/// Non-Maskable interrupt
+/// </summary>
 void CPU::NMI()
 {
 	// Push PC to the stack
 	this->pushWordStack(this->PC);
 
 	// Push SR to the stack
-	this->setFlag(CPU::Status::B, false);
-	this->setFlag(CPU::Status::U, true);
-	this->setFlag(CPU::Status::I, true);
 	this->pushStack((Byte)this->SR);
+	this->setFlag(CPU::Status::I, true);
 
 	// JMP
 	this->PC = this->readWord(CPU::NMIVector);
 
-	this->Cycles = 8;
+	this->Cycles += 7;
 }
 
 void CPU::setFlag(CPU::Status flag, bool value)
